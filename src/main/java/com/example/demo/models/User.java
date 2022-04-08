@@ -3,6 +3,7 @@ package com.example.demo.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -23,6 +24,9 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+    @OneToMany
+    @JoinColumn(name = "userId")
+    List<Account> accounts;
 
     public User(String firstName, String lastName, int age, String email, String password) {
         this.firstName = firstName;
