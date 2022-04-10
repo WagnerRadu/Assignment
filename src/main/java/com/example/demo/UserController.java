@@ -1,7 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.models.Account;
 import com.example.demo.models.Currency;
 import com.example.demo.models.User;
+import com.example.demo.services.AccountRepository;
 import com.example.demo.services.UserService;
 import com.example.demo.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user) {
@@ -67,6 +72,17 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/{id}/accounts")
+    public ResponseEntity<?> getUserAccounts(@PathVariable String id) {
+        List<Account> accountList = accountRepository.findByUserId(Integer.parseInt(id));
+        if(accountList.isEmpty()) {
+            return new ResponseEntity<>("No accounts found for this user", HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity<>(accountList, HttpStatus.OK);
+        }
     }
 
     @GetMapping("/test")

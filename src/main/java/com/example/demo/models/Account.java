@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "accounts")
 @NoArgsConstructor
+@Getter
 public class Account {
     @Id
     String iban;
