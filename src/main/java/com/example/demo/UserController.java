@@ -32,28 +32,28 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
             userRepository.save(user);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>("User succesfully created", HttpStatus.OK);
         } catch (DataAccessException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("This email is already used!", HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/find/byId/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable int id) {
         Optional<User> userOp = userRepository.findById(id);
         if(userOp.isPresent()) {
             return new ResponseEntity<>(userOp.get(), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No user found for this id!", HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/find/byName/{firstName}")
-    public ResponseEntity<?> getUserByFirstName(@PathVariable String firstName) {
+    @GetMapping
+    public ResponseEntity<?> getUserByFirstName(@RequestParam String firstName) {
         List<User> userList = userRepository.findByFirstName(firstName);
         if(userList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No users found!", HttpStatus.NOT_FOUND);
         }
         else {
             return new ResponseEntity<>(userList, HttpStatus.OK);
@@ -67,26 +67,25 @@ public class UserController {
             try {
                 userService.createAccount(userOp.get(), currency);
             } catch (DataAccessException e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("This currency isn't available!", HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>("Account succesfully created", HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/{id}/accounts")
     public ResponseEntity<?> getUserAccounts(@PathVariable String id) {
-        List<Account> accountList = accountRepository.findByUserId(Integer.parseInt(id));
+        int userId = Integer.parseInt(id);
+        if(!userRepository.existsById(userId)) {
+            return new ResponseEntity<>("No user found for this id!", HttpStatus.NOT_FOUND);
+        }
+        List<Account> accountList = accountRepository.findByUserId(userId);
         if(accountList.isEmpty()) {
-            return new ResponseEntity<>("No accounts found for this user", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No accounts found for this user!", HttpStatus.NOT_FOUND);
         }
         else {
             return new ResponseEntity<>(accountList, HttpStatus.OK);
         }
-    }
-
-    @GetMapping("/test")
-    public void test(@RequestBody Currency currency) {
-        System.out.println(currency.toString());
     }
 }

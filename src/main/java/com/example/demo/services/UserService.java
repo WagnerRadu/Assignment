@@ -17,6 +17,4 @@ public class UserService {
         accountRepository.save(account);
         user.getAccounts().add(account);
     }
-
-
 }

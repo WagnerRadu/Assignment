@@ -25,10 +25,4 @@ public class Account {
         this.userId = userId;
         this.currency = currency;
     }
-
-
-//    public String generateIban(int userId, String currency) {
-//        StringBuilder iban = new StringBuilder("RO" + userId + currency);
-//
-//    }
 }
