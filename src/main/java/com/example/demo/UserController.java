@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.models.Currency;
 import com.example.demo.models.User;
+import com.example.demo.services.UserService;
 import com.example.demo.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -8,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,9 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
 
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user) {
@@ -51,5 +55,22 @@ public class UserController {
         }
     }
 
+    @PostMapping("/{id}/accounts")
+    public ResponseEntity<?> createAccount(@RequestBody Currency currency, @PathVariable String id) {
+        Optional<User> userOp = userRepository.findById(Integer.parseInt(id));
+        if(userOp.isPresent()) {
+            try {
+                userService.createAccount(userOp.get(), currency);
+            } catch (DataAccessException e) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
+    @GetMapping("/test")
+    public void test(@RequestBody Currency currency) {
+        System.out.println(currency.toString());
+    }
 }
