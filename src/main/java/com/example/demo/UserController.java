@@ -120,4 +120,9 @@ public class UserController {
     public ResponseEntity<?> getUserFirstNameInitials() {
         return new ResponseEntity<>(userService.getFirstNameInitials(), HttpStatus.OK);
     }
+
+    @GetMapping("/A20")
+    public ResponseEntity<?> countUsersWithA20() {
+        return new ResponseEntity<>(userService.countUsersWithA20(), HttpStatus.OK);
+    }
 }

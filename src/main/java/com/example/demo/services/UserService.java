@@ -45,4 +45,9 @@ public class UserService {
         return stream.map(user -> user.getFirstName().charAt(0) + "")
                 .reduce("", (acc, name) -> acc + name);
     }
+
+    public int countUsersWithA20() {
+        Stream<User> stream = userRepository.findAll().stream();
+        return (int) stream.filter(user -> user.getAge() < 20 && (user.getFirstName().matches(".*[aA].*"))).count();
+    }
 }
