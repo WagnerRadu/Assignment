@@ -88,4 +88,17 @@ public class UserController {
             return new ResponseEntity<>(accountList, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/initials")
+    public ResponseEntity<?> getInitials() {
+        List<String> initialsList = userService.getUserInitials();
+        if(initialsList.isEmpty()) {
+            return new ResponseEntity<>("No user found!", HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity<>(initialsList, HttpStatus.OK);
+        }
+    }
+
+
 }
