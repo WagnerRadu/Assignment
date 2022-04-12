@@ -116,4 +116,8 @@ public class UserController {
         }
     }
 
+    @GetMapping("/firstNameInitials")
+    public ResponseEntity<?> getUserFirstNameInitials() {
+        return new ResponseEntity<>(userService.getFirstNameInitials(), HttpStatus.OK);
+    }
 }

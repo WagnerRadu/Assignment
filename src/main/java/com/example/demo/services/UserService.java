@@ -39,4 +39,10 @@ public class UserService {
         Stream<User> stream = userRepository.findAll().stream();
         return stream.map(User::getLastName).distinct().collect(Collectors.toList());
     }
+
+    public String getFirstNameInitials() {
+        Stream<User> stream = userRepository.findAll().stream();
+        return stream.map(user -> user.getFirstName().charAt(0) + "")
+                .reduce("", (acc, name) -> acc + name);
+    }
 }
