@@ -100,5 +100,20 @@ public class UserController {
         }
     }
 
+    @GetMapping("/gmailCount")
+    public ResponseEntity<?> countGmailUsers() {
+        return new ResponseEntity<>(userService.countGmailUsers(), HttpStatus.OK);
+    }
+
+    @GetMapping("/lastNames")
+    public ResponseEntity<?> getUserUniqueLastNames() {
+        List<String> lastNamesList = userService.getUserUniqueLastNames();
+        if(lastNamesList.isEmpty()) {
+            return new ResponseEntity<>("No user found!", HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity<>(lastNamesList, HttpStatus.OK);
+        }
+    }
 
 }

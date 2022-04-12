@@ -30,5 +30,13 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public int countGmailUsers() {
+        Stream<User> stream = userRepository.findAll().stream();
+        return (int) stream.filter(user -> user.getEmail().contains("@gmail.")).count();
+    }
 
+    public List<String> getUserUniqueLastNames() {
+        Stream<User> stream = userRepository.findAll().stream();
+        return stream.map(User::getLastName).distinct().collect(Collectors.toList());
+    }
 }
