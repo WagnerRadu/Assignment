@@ -1,11 +1,10 @@
-package com.example.demo;
+package com.example.demo.users;
 
-import com.example.demo.models.Account;
-import com.example.demo.models.Currency;
-import com.example.demo.models.User;
-import com.example.demo.services.AccountRepository;
-import com.example.demo.services.UserService;
-import com.example.demo.services.UserRepository;
+import com.example.demo.accounts.models.Account;
+import com.example.demo.accounts.models.Currency;
+import com.example.demo.accounts.AccountRepository;
+import com.example.demo.users.services.UserService;
+import com.example.demo.users.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;

@@ -1,8 +1,9 @@
-package com.example.demo.services;
+package com.example.demo.users.services;
 
-import com.example.demo.models.Account;
-import com.example.demo.models.Currency;
-import com.example.demo.models.User;
+import com.example.demo.accounts.models.Account;
+import com.example.demo.accounts.models.Currency;
+import com.example.demo.accounts.AccountRepository;
+import com.example.demo.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import java.util.stream.Stream;
 @Service
 public class UserService {
 
-    @Autowired AccountRepository accountRepository;
+    @Autowired
+    AccountRepository accountRepository;
 
-    @Autowired UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
     public void createAccount(User user, Currency currency) {
         String iban = "ROWB" + user.getId() + (user.getAccounts().size() + 1) + currency;

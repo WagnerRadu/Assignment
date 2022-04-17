@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package com.example.demo.accounts.models;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

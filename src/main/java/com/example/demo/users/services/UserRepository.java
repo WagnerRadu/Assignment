@@ -1,6 +1,6 @@
-package com.example.demo.services;
+package com.example.demo.users.services;
 
-import com.example.demo.models.User;
+import com.example.demo.users.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

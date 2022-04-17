@@ -1,7 +1,7 @@
 package com.example.demo.transfers;
 
-import com.example.demo.models.Account;
-import com.example.demo.services.AccountRepository;
+import com.example.demo.accounts.models.Account;
+import com.example.demo.accounts.AccountRepository;
 import com.example.demo.transfers.models.TransferRequest;
 import com.example.demo.transfers.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;

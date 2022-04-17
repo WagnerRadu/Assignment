@@ -1,10 +1,10 @@
-package com.example.demo.models;
+package com.example.demo.users;
 
+import com.example.demo.accounts.models.Account;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "users")
