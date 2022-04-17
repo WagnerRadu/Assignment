@@ -20,9 +20,9 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public void createAccount(User user, Currency currency) {
+    public void createAccount(User user, Currency currency, double amount) {
         String iban = "ROWB" + user.getId() + (user.getAccounts().size() + 1) + currency;
-        Account account = new Account(iban, user.getId(), currency.toString());
+        Account account = new Account(iban, user.getId(), currency.toString(), amount);
         accountRepository.save(account);
         user.getAccounts().add(account);
     }

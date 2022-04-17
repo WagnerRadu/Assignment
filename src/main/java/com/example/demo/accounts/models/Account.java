@@ -19,13 +19,14 @@ public class Account {
     int userId;
     @Column(nullable = false)
     String currency;
-    @Column(nullable = true)
+    @Column(nullable = false)
     Double amount;
 
-    public Account(String iban, int userId, String currency) {
+    public Account(String iban, int userId, String currency, double amount) {
         this.iban = iban;
         this.userId = userId;
         this.currency = currency;
+        this.amount = amount;
     }
 
     public void subtractAmount(double amount) {

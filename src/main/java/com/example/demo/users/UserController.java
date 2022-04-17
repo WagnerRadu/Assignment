@@ -1,6 +1,7 @@
 package com.example.demo.users;
 
 import com.example.demo.accounts.models.Account;
+import com.example.demo.accounts.models.AccountRequest;
 import com.example.demo.accounts.models.Currency;
 import com.example.demo.accounts.AccountRepository;
 import com.example.demo.users.services.UserService;
@@ -60,11 +61,11 @@ public class UserController {
     }
 
     @PostMapping("/{id}/accounts")
-    public ResponseEntity<?> createAccount(@RequestBody Currency currency, @PathVariable String id) {
+    public ResponseEntity<?> createAccount(@RequestBody AccountRequest accountRequest, @PathVariable String id) {
         Optional<User> userOp = userRepository.findById(Integer.parseInt(id));
         if(userOp.isPresent()) {
             try {
-                userService.createAccount(userOp.get(), currency);
+                userService.createAccount(userOp.get(), accountRequest.getCurrency(), accountRequest.getAmount());
             } catch (DataAccessException e) {
                 return new ResponseEntity<>("This currency isn't available!", HttpStatus.BAD_REQUEST);
             }
