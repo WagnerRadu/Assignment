@@ -45,6 +45,7 @@ public class TransferController {
             if(!internalTransferService.transferMoney(sourceAccount, destinationIban, amount))
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        else externalTransferService.transferMoney(sourceAccount, destinationIban, amount);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
