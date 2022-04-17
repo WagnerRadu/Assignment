@@ -19,10 +19,20 @@ public class Account {
     int userId;
     @Column(nullable = false)
     String currency;
+    @Column(nullable = true)
+    Double amount;
 
     public Account(String iban, int userId, String currency) {
         this.iban = iban;
         this.userId = userId;
         this.currency = currency;
+    }
+
+    public void subtractAmount(double amount) {
+        this.amount -= amount;
+    }
+
+    public void addAmount(double amount) {
+        this.amount += amount;
     }
 }
