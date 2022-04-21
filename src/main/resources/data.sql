@@ -1,0 +1,2 @@
+insert into users (id, age, email, first_name, last_name, password) values (1, 20, 'ion@email.com', 'ionut', 'ionescu', 'abcd');
+insert into users (id, age, email, first_name, last_name, password) values (2, 30, 'raz@email.com', 'razvan', 'adrian', 'abcd12');
