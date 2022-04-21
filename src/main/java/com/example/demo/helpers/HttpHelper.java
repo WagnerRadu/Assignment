@@ -27,6 +27,7 @@ public class HttpHelper {
         try {
             URL postUrl = new URL(url);
             postRequest = HttpRequest.newBuilder(postUrl.toURI())
+                    .header("Content-Type", "application/json; charset=UTF-8")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
         } catch (URISyntaxException | MalformedURLException e) {

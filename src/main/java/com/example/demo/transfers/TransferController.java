@@ -46,6 +46,6 @@ public class TransferController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else externalTransferService.transferMoney(sourceAccount, destinationIban, amount);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Transfer succesful", HttpStatus.OK);
     }
 }
