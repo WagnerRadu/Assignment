@@ -3,7 +3,7 @@ package com.example.demo.users.services;
 import com.example.demo.accounts.models.Account;
 import com.example.demo.accounts.models.Currency;
 import com.example.demo.accounts.AccountRepository;
-import com.example.demo.users.User;
+import com.example.demo.users.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
