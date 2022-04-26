@@ -1,10 +1,11 @@
 package com.example.demo.users;
 
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.demo.accounts.models.Account;
 import com.example.demo.accounts.models.AccountRequest;
 import com.example.demo.accounts.AccountRepository;
-import com.example.demo.jwt.JwtHelper;
+import com.example.demo.helpers.JwtHelper;
 import com.example.demo.users.models.JwtResponse;
 import com.example.demo.users.models.LoginRequest;
 import com.example.demo.users.models.User;
@@ -139,11 +140,11 @@ public class UserController {
     public ResponseEntity<?> authenticate(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         Optional<User> userOp = userRepository.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
         if(userOp.isPresent()) {
-            String token = null;
+            String token;
             try {
                 token = jwtHelper.generateToken(userOp.get().getId());
             } catch (JWTCreationException exception) {
-                System.out.println("Invalid signing configuration");
+                return ResponseEntity.ok("Invalid signing configuration");
             }
             return ResponseEntity.ok(new JwtResponse(token));
         }
@@ -153,8 +154,13 @@ public class UserController {
     @PostMapping("/accounts")
     public ResponseEntity<?> createAccount(HttpServletRequest request, @RequestBody AccountRequest accountRequest) {
         String token = request.getHeader("Authorization");
-        int userId = Integer.parseInt(jwtHelper.getUserId(token));
-        User user = userRepository.findById(userId).get();
+        int userId = 0;
+        try {
+            userId = Integer.parseInt(jwtHelper.getUserId(token));
+        } catch (JWTVerificationException e) {
+            return new ResponseEntity<>("Authorization token is invalid", HttpStatus.UNAUTHORIZED);
+        }
+        User user = userRepository.findById(userId).get(); //should always be present since it's verified with the token
         userService.createAccount(user, accountRequest.getCurrency(), accountRequest.getAmount());
         return new ResponseEntity<>(HttpStatus.OK);
     }
