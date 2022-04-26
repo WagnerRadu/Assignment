@@ -1,8 +1,14 @@
 package com.example.demo.users;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.demo.accounts.models.Account;
 import com.example.demo.accounts.models.AccountRequest;
 import com.example.demo.accounts.AccountRepository;
+import com.example.demo.helpers.JwtHelper;
+import com.example.demo.users.models.JwtResponse;
+import com.example.demo.users.models.LoginRequest;
+import com.example.demo.users.models.User;
 import com.example.demo.users.services.UserService;
 import com.example.demo.users.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +34,9 @@ public class UserController {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    JwtHelper jwtHelper;
 
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user) {
@@ -123,5 +134,34 @@ public class UserController {
     @GetMapping("/A20")
     public ResponseEntity<?> countUsersWithA20() {
         return new ResponseEntity<>(userService.countUsersWithA20(), HttpStatus.OK);
+    }
+
+    @PostMapping("/auth")
+    public ResponseEntity<?> authenticate(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+        Optional<User> userOp = userRepository.findByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
+        if(userOp.isPresent()) {
+            String token;
+            try {
+                token = jwtHelper.generateToken(userOp.get().getId());
+            } catch (JWTCreationException exception) {
+                return ResponseEntity.ok("Invalid signing configuration");
+            }
+            return ResponseEntity.ok(new JwtResponse(token));
+        }
+        return new ResponseEntity<>("Credentials are wrong", HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("/accounts")
+    public ResponseEntity<?> createAccount(HttpServletRequest request, @RequestBody AccountRequest accountRequest) {
+        String token = request.getHeader("Authorization");
+        int userId = 0;
+        try {
+            userId = Integer.parseInt(jwtHelper.getUserId(token));
+        } catch (JWTVerificationException e) {
+            return new ResponseEntity<>("Authorization token is invalid", HttpStatus.UNAUTHORIZED);
+        }
+        User user = userRepository.findById(userId).get(); //should always be present since it's verified with the token
+        userService.createAccount(user, accountRequest.getCurrency(), accountRequest.getAmount());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

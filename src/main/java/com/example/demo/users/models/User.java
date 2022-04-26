@@ -1,4 +1,4 @@
-package com.example.demo.users;
+package com.example.demo.users.models;
 
 import com.example.demo.accounts.models.Account;
 import lombok.Getter;

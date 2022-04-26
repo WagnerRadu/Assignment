@@ -6,7 +6,7 @@ import com.example.demo.accounts.models.AccountRequest;
 import com.example.demo.accounts.models.Currency;
 import com.example.demo.helpers.HttpHelper;
 import com.example.demo.transfers.models.TransferRequest;
-import com.example.demo.users.User;
+import com.example.demo.users.models.User;
 import com.example.demo.users.services.UserRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
