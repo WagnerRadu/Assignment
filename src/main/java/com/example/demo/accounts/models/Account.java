@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "accounts")
@@ -35,5 +36,18 @@ public class Account {
 
     public void addAmount(double amount) {
         this.amount += amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return userId == account.userId && iban.equals(account.iban) && currency.equals(account.currency) && amount.equals(account.amount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(iban, userId, currency, amount);
     }
 }

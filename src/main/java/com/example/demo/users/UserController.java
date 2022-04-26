@@ -2,7 +2,6 @@ package com.example.demo.users;
 
 import com.example.demo.accounts.models.Account;
 import com.example.demo.accounts.models.AccountRequest;
-import com.example.demo.accounts.models.Currency;
 import com.example.demo.accounts.AccountRepository;
 import com.example.demo.users.services.UserService;
 import com.example.demo.users.services.UserRepository;
